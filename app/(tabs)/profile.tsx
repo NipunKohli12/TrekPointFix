@@ -1,12 +1,35 @@
 import { useRouter } from 'expo-router';
-import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { getAuth, signOut } from 'firebase/auth'; // Import Firebase Auth methods
+import React, { useState } from 'react';
+import { Alert, Button, StyleSheet, Text, View } from 'react-native';
 
 export default function ProfileScreen() {
   const router = useRouter();
+  const auth = getAuth(); // Initialize Firebase Auth
 
-  function handleLogout() {
-    router.push('/');
+  // Assuming these state setters are available
+  const [email, setEmail] = useState('');
+  const [pword, setPword] = useState('');
+  const [loginout, setloginout] = useState(''); // State to track login/logout status
+
+  async function logoutA() {
+    setEmail(email); // Setting state with current email
+    setPword(pword); // Setting state with current password
+    console.log('loginA', 'Login: ' + email + ' password: ' + pword);
+
+    signOut(auth)
+      .then(() => {
+        console.log('SignoutEmailPassword:', 'success:', email);
+        setloginout('Signout successful for: ' + email);
+        router.replace('/'); // Redirect to login page on successful logout
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setloginout('Signout unsuccessful');
+        console.log('SignoutEmailPassword:', errorCode, errorMessage);
+        Alert.alert('Logout Failed', errorMessage);
+      });
   }
 
   return (
@@ -22,7 +45,8 @@ export default function ProfileScreen() {
       </View>
 
       <View style={styles.buttonContainer}>
-        <Button title="Logout" onPress={handleLogout} />
+        <Button title="Logout" onPress={logoutA} />
+        <Text style={styles.logoutStatus}>{loginout}</Text>
       </View>
     </View>
   );
@@ -55,5 +79,10 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     alignItems: 'center',
+  },
+  logoutStatus: {
+    marginTop: 10,
+    fontSize: 16,
+    color: 'green', // Can change based on status
   },
 });
