@@ -28,7 +28,7 @@ export default function LoginScreen() {
   const [loginStatus, setLoginStatus] = useState<string>('');
 
   /**
-   * Asynchronous function to handle the login process using Firebase email and password authentication.
+   * function to handle the login process using Firebase email and password authentication.
    */
   const loginA = () => {
     // Call Firebase's signInWithEmailAndPassword function to authenticate the user.
