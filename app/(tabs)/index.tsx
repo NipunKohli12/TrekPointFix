@@ -6,7 +6,7 @@ import { Alert, Button, Pressable, StyleSheet, Text, TextInput, View } from 'rea
 const { firebaseConfig } = require('../../firebase');
 
 // Initialize Firebase only once
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp()[0];
 const auth = getAuth(app);
 
 export default function LoginScreen() {
