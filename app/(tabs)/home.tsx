@@ -2,7 +2,6 @@ import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
     ActivityIndicator,
-    Alert,
     Pressable,
     SafeAreaView,
     StyleSheet,
@@ -14,7 +13,7 @@ import MapView, { Marker, PROVIDER_DEFAULT } from 'react-native-maps';
 
 // Store your API key securely - Consider using environment variables in production.
 // This API key is directly in the code and should be handled with more caution in a real application.
-const API_KEY = 'AIzaSyD6WvrHmpw945McGOenQR_vY1vcMh-95a8'; // Replace with your actual API key
+const API_KEY = 'AIzaSyD6WvrHmpw945McGOenQR_vY1vcMh-95a8'; 
 // Constructing the Gemini API URL with the API key.
 const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
 
@@ -46,7 +45,7 @@ const fetchFunFactFromGemini = async () => {
 
 /**
  * Functional component for the Home Screen.
- * Displays a title, a search input (not yet functional), a button to fetch a fun nature fact,
+ * Displays a title, a search input, a button to fetch a fun nature fact,
  * a loading indicator while fetching, a map view, and a profile button.
  */
 export default function HomeScreen() {
@@ -80,6 +79,15 @@ export default function HomeScreen() {
         }
     };
 
+    /**
+     * Function to handle the press event on the search icon.
+     * It navigates the user to the 'results' screen.
+     */
+    const handleSearchPress = () => {
+        // Navigate to the 'results' screen using Expo Router.
+        router.push('/results');
+    };
+
     return (
         <View style={styles.container}>
             {/* SafeAreaView to ensure content is within the safe area of the device screen. */}
@@ -100,13 +108,10 @@ export default function HomeScreen() {
                     value={searchText}
                     onChangeText={setSearchText}
                 />
-                {/* Non-functional search icon button. */}
+                {/* Pressable component acting as a button for the search icon. */}
                 <Pressable
                     style={styles.searchIcon}
-                    onPress={() => {
-                        Alert.alert("AI trail search is not implemented yet.");
-                        console.log('Search submitted:', searchText);
-                    }}
+                    onPress={handleSearchPress} // Call the handleSearchPress function when the search icon is pressed.
                 >
                     <Text>🔍</Text>
                 </Pressable>
